@@ -78,7 +78,7 @@ class _Otp_PageState extends State<Otp_Page> {
             InkWell(
               onTap: () {
                 FocusManager.instance.primaryFocus?.unfocus();
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => Register_Page(),

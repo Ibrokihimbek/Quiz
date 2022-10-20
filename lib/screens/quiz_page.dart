@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:quiz/screens/login_page.dart';
 import 'package:quiz/screens/my_question.dart';
 import 'package:quiz/screens/my_question_three.dart';
 import 'package:quiz/screens/my_question_two.dart';
@@ -8,6 +10,7 @@ import 'package:quiz/screens/otp.dart';
 import 'package:quiz/screens/quiz_page.dart';
 import 'package:quiz/utils/colors.dart';
 import 'package:quiz/utils/images.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Quiz_Page extends StatefulWidget {
   const Quiz_Page({super.key});
@@ -29,17 +32,71 @@ class _Quiz_PageState extends State<Quiz_Page> {
             child: Column(
               children: [
                 SizedBox(height: 17.h),
-                Padding(
-                  padding: const EdgeInsets.only(left: 5).r,
-                  child: Image.asset(MyImages.image_quiz_app),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5).r,
+                      child: Image.asset(MyImages.image_quiz_app),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: ((context) => CupertinoAlertDialog(
+                                title: const Text("Chiqmoqchimisiz!"),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: ((context) =>
+                                            CupertinoAlertDialog(
+                                              title: const Text(
+                                                  "Rostdanham chiqmoqchimisiz"),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    saveLogin(context);
+                                                  },
+                                                  child: const Text("Ha"),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text("Yo'q"),
+                                                ),
+                                              ],
+                                            )),
+                                      );
+                                    },
+                                    child: const Text("Ha"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("Yo'q"),
+                                  ),
+                                ],
+                              )),
+                        );
+                      },
+                      child: Icon(
+                        Icons.logout,
+                        size: 32,
+                        color: Color(0xff6066D0),
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 30.h),
                 QuizButton('''Avtomobillarga oid 
            savollar''', MyColors.C_ED719A, MyColors.C_EC8771, Question_Page()),
                 SizedBox(height: 20.h),
                 QuizButton('''Ona Tiliga oid 
-      savollar''', MyColors.C_A48DD1, MyColors.C_EFBBE8,
-                    Question_Two_Page()),
+      savollar''', MyColors.C_A48DD1, MyColors.C_EFBBE8, Question_Two_Page()),
                 SizedBox(height: 20.h),
                 QuizButton('''Matematikaga oid 
           savollar''', MyColors.C_4D79EE, MyColors.C_12AFFA,
@@ -86,5 +143,13 @@ class _Quiz_PageState extends State<Quiz_Page> {
         ),
       ),
     );
+  }
+
+  void saveLogin(context) async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    _pref.setBool("isLoggedIn", false);
+
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Log_In_Page()));
   }
 }

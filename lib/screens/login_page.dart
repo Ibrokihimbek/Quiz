@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz/screens/otp.dart';
+import 'package:quiz/screens/quiz_page.dart';
 import 'package:quiz/utils/colors.dart';
 import 'package:quiz/utils/images.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Log_In_Page extends StatefulWidget {
   const Log_In_Page({super.key});
@@ -64,12 +66,7 @@ class _Log_In_PageState extends State<Log_In_Page> {
             InkWell(
               onTap: () {
                 FocusManager.instance.primaryFocus?.unfocus();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Otp_Page(),
-                  ),
-                );
+                saveLogin(context);
               },
               child: Container(
                 child: Center(
@@ -113,5 +110,13 @@ class _Log_In_PageState extends State<Log_In_Page> {
         ),
       ),
     );
+  }
+
+  void saveLogin(context) async {
+    SharedPreferences _pref = await SharedPreferences.getInstance();
+    _pref.setBool("isLoggedIn", true);
+
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Otp_Page()));
   }
 }

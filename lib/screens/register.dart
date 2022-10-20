@@ -53,7 +53,7 @@ class _Register_PageState extends State<Register_Page> {
             InkWell(
               onTap: () {
                 FocusManager.instance.primaryFocus?.unfocus();
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => Quiz_Page(),
