@@ -15,6 +15,7 @@ class Log_In_Page extends StatefulWidget {
 }
 
 class _Log_In_PageState extends State<Log_In_Page> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,79 +35,89 @@ class _Log_In_PageState extends State<Log_In_Page> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            SizedBox(height: 17.h),
-            Padding(
-              padding: const EdgeInsets.only(left: 5).r,
-              child: Image.asset(MyImages.image_clipart),
-            ),
-            SizedBox(height: 24.h),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 31),
-              child: TextField(
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.phone,
-                obscureText: false,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: 'Enter your mobile number',
-                  hintStyle: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: MyColors.C_000000.withOpacity(0.29)),
-                  ),
-                ),
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              SizedBox(height: 17.h),
+              Padding(
+                padding: const EdgeInsets.only(left: 5).r,
+                child: Image.asset(MyImages.image_clipart),
               ),
-            ),
-            SizedBox(height: 22.h),
-            InkWell(
-              onTap: () {
-                FocusManager.instance.primaryFocus?.unfocus();
-                saveLogin(context);
-              },
-              child: Container(
-                child: Center(
-                  child: Text(
-                    'Login',
-                    style: GoogleFonts.poppins(
+              SizedBox(height: 24.h),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 31),
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Telefon raqam kiritlmadi";
+                    }
+                  },
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.phone,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    hintText: 'Enter your mobile number',
+                    hintStyle: GoogleFonts.poppins(
                       textStyle: TextStyle(
-                          fontSize: 18,
+                          fontSize: 14,
                           fontWeight: FontWeight.w400,
-                          color: Colors.white),
+                          color: MyColors.C_000000.withOpacity(0.29)),
                     ),
                   ),
                 ),
-                width: 153.w,
-                height: 33.h,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: MyColors.C_FCA82F),
               ),
-            ),
-            SizedBox(height: 120.h),
-            Text(
-              'term’s and conditons apply',
-              style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: MyColors.C_000000.withOpacity(0.29)),
+              SizedBox(height: 22.h),
+              InkWell(
+                onTap: () {
+                  if (_formKey.currentState!.validate()) {
+                    saveLogin(context);
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  }
+                },
+                child: Container(
+                  child: Center(
+                    child: Text(
+                      'Login',
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  width: 153.w,
+                  height: 33.h,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: MyColors.C_FCA82F),
+                ),
               ),
-            ),
-            Text(
-              'POWERD BY - sparrowdevops.com',
-              style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: MyColors.C_000000.withOpacity(0.29)),
+              SizedBox(height: 120.h),
+              Text(
+                'term’s and conditons apply',
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: MyColors.C_000000.withOpacity(0.29)),
+                ),
               ),
-            )
-          ],
+              Text(
+                'POWERD BY - sparrowdevops.com',
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: MyColors.C_000000.withOpacity(0.29)),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

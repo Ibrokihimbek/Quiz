@@ -48,6 +48,7 @@ class _Quiz_PageState extends State<Quiz_Page> {
                                 actions: [
                                   TextButton(
                                     onPressed: () {
+                                      Navigator.pop(context);
                                       showDialog(
                                         context: context,
                                         builder: ((context) =>
@@ -57,6 +58,14 @@ class _Quiz_PageState extends State<Quiz_Page> {
                                               actions: [
                                                 TextButton(
                                                   onPressed: () {
+                                                    Navigator.pushAndRemoveUntil(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (_) =>
+                                                                Log_In_Page()),
+                                                        ModalRoute.withName(
+                                                            "/"));
+
                                                     saveLogin(context);
                                                   },
                                                   child: const Text("Ha"),

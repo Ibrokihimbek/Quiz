@@ -15,6 +15,8 @@ class Register_Page extends StatefulWidget {
 }
 
 class _Register_PageState extends State<Register_Page> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,62 +36,67 @@ class _Register_PageState extends State<Register_Page> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            SizedBox(height: 17.h),
-            Padding(
-              padding: const EdgeInsets.only(left: 5).r,
-              child: Image.asset(MyImages.image_quiz_app),
-            ),
-            SizedBox(height: 55.h),
-            Text_Field('Enter your mobile number'),
-            SizedBox(height: 8.h),
-            Text_Field('Password'),
-            SizedBox(height: 8.h),
-            Text_Field('Confirm Password'),
-            SizedBox(height: 22.h),
-            InkWell(
-              onTap: () {
-                FocusManager.instance.primaryFocus?.unfocus();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Quiz_Page(),
-                  ),
-                );
-              },
-              child: Container(
-                child: Center(
-                  child: Text(
-                    'Register',
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white),
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              SizedBox(height: 17.h),
+              Padding(
+                padding: const EdgeInsets.only(left: 5).r,
+                child: Image.asset(MyImages.image_quiz_app),
+              ),
+              SizedBox(height: 55.h),
+              Text_Field('Enter your mobile number'),
+              SizedBox(height: 8.h),
+              Text_Field('Password'),
+              SizedBox(height: 8.h),
+              Text_Field('Confirm Password'),
+              SizedBox(height: 22.h),
+              InkWell(
+                onTap: () {
+                  if (_formKey.currentState!.validate()) {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Quiz_Page(),
+                      ),
+                    );
+                  }
+                },
+                child: Container(
+                  child: Center(
+                    child: Text(
+                      'Register',
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white),
+                      ),
                     ),
                   ),
+                  width: 153.w,
+                  height: 33.h,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: MyColors.C_FCA82F),
                 ),
-                width: 153.w,
-                height: 33.h,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: MyColors.C_FCA82F),
               ),
-            ),
-            SizedBox(height: 20.h),
-            Text(
-              'if you have already account click here',
-              style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: MyColors.C_000000.withOpacity(0.29)),
+              SizedBox(height: 20.h),
+              Text(
+                'if you have already account click here',
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: MyColors.C_000000.withOpacity(0.29)),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -98,7 +105,14 @@ class _Register_PageState extends State<Register_Page> {
   Widget Text_Field(String text) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 31),
-      child: TextField(
+      child: TextFormField(
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return text == 'Enter your mobile number'
+                ? 'Telefon raqam kiriting'
+                : 'parolingizni kiriting';
+          }
+        },
         textInputAction: TextInputAction.next,
         keyboardType: text == 'Enter your mobile number'
             ? TextInputType.phone

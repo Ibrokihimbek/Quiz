@@ -14,6 +14,8 @@ class Otp_Page extends StatefulWidget {
 }
 
 class _Otp_PageState extends State<Otp_Page> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,93 +35,103 @@ class _Otp_PageState extends State<Otp_Page> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            SizedBox(height: 17.h),
-            Padding(
-              padding: const EdgeInsets.only(left: 5).r,
-              child: Image.asset(MyImages.image_quiz_app),
-            ),
-            SizedBox(height: 50.h),
-            Text(
-              'Enter your 6 digit otp here',
-              style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: MyColors.C_000000.withOpacity(0.29)),
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              SizedBox(height: 17.h),
+              Padding(
+                padding: const EdgeInsets.only(left: 5).r,
+                child: Image.asset(MyImages.image_quiz_app),
               ),
-            ),
-            SizedBox(height: 24.h),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 80),
-              child: TextField(
-                style: TextStyle(fontSize: 38),
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.phone,
-                obscureText: false,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
+              SizedBox(height: 50.h),
+              Text(
+                'Enter your 6 digit otp here',
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: MyColors.C_000000.withOpacity(0.29)),
                 ),
               ),
-            ),
-            Text(
-              '_ _ _ _ _ _',
-              style: GoogleFonts.poppins(
-                textStyle: const TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.w400,
-                    color: MyColors.C_000000),
-              ),
-            ),
-            SizedBox(height: 22.h),
-            InkWell(
-              onTap: () {
-                FocusManager.instance.primaryFocus?.unfocus();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Register_Page(),
+              SizedBox(height: 24.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 80),
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Kod kiriting";
+                    }
+                  },
+                  style: const TextStyle(fontSize: 38),
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.phone,
+                  obscureText: false,
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
                   ),
-                );
-              },
-              child: Container(
-                child: Center(
-                  child: Text(
-                    'Login',
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white),
+                ),
+              ),
+              Text(
+                '_ _ _ _ _ _',
+                style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.w400,
+                      color: MyColors.C_000000),
+                ),
+              ),
+              SizedBox(height: 22.h),
+              InkWell(
+                onTap: () {
+                  if (_formKey.currentState!.validate()) {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Register_Page(),
+                      ),
+                    );
+                  }
+                },
+                child: Container(
+                  child: Center(
+                    child: Text(
+                      'Login',
+                      style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white),
+                      ),
                     ),
                   ),
+                  width: 153.w,
+                  height: 33.h,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      color: MyColors.C_FCA82F),
                 ),
-                width: 153.w,
-                height: 33.h,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: MyColors.C_FCA82F),
               ),
-            ),
-            SizedBox(height: 12.h),
-            Text(
-              'login with social media',
-              style: GoogleFonts.poppins(
-                textStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: MyColors.C_000000.withOpacity(0.29)),
+              SizedBox(height: 12.h),
+              Text(
+                'login with social media',
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: MyColors.C_000000.withOpacity(0.29)),
+                ),
               ),
-            ),
-            SizedBox(height: 34.h),
-            Image.asset(
-              MyImages.image_otp,
-              width: 154.w,
-            ),
-          ],
+              SizedBox(height: 34.h),
+              Image.asset(
+                MyImages.image_otp,
+                width: 154.w,
+              ),
+            ],
+          ),
         ),
       ),
     );
